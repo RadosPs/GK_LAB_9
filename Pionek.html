@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Biały Pionek</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.115/build/three.js"></script>
+</head>
+<body>
+<script>
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+// Oświetlenie
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+const pointLight = new THREE.PointLight(0xffffff, 0.8);
+pointLight.position.set(5, 5, 5);
+scene.add(ambientLight);
+scene.add(pointLight);
+
+// Materiał
+const material = new THREE.MeshPhongMaterial({ color: 0xffffff }); // biały
+
+// Podstawa pionka
+const baseGeometry = new THREE.CylinderGeometry(0.8, 0.8, 0.2, 32);
+const base = new THREE.Mesh(baseGeometry, material);
+base.position.y = 0.1;
+scene.add(base);
+
+// Ciało pionka
+const bodyGeometry = new THREE.CylinderGeometry(0.5, 0.8, 1, 32);
+const body = new THREE.Mesh(bodyGeometry, material);
+body.position.y = 0.7;
+scene.add(body);
+
+// Główka pionka
+const headGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+const head = new THREE.Mesh(headGeometry, material);
+head.position.y = 1.5;
+scene.add(head);
+
+// Kamera
+camera.position.z = 5;
+
+// Animacja
+function animate() {
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
+}
+
+animate();
+</script>
+</body>
+</html>
